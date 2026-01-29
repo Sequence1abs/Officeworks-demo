@@ -10,7 +10,7 @@
 [![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/)
 
 
-A modern, full-stack eCommerce web application built with Next.js 15. It features a robust frontend, a secure backend with API routes, and a managed database with relations. Originally forked from a frontend template, the project has been significantly enhanced with a custom backend, Redux state management, and a complete authentication system.
+A modern, full-stack eCommerce web application built with Next.js 15. It features a robust frontend, a secure backend with API routes, and a managed database with relations. Originally forked from a frontend template, the project has been significantly enhanced with a custom backend and Redux state management.
 
 ## 🚀 Live Demo
 
@@ -23,7 +23,7 @@ https://nextjs-ecommerce-lac-sigma.vercel.app/
 - **Frontend:** Built with Next.js 15 and Tailwind CSS. Features a responsive design and modern user interface. Originally based on the [NextMerce template](https://github.com/nextMerce/nextjs-ecommerce-template), but has been heavily modified with custom loading and error state management.
 - **Backend:** Leverages Next.js built-in API Routes and "server-only" function actions for secure database queries.
 - **State Management:** Uses Redux Toolkit with `createAsyncThunk` for efficient and predictable state management, especially for handling API calls.
-- **Authentication:** Implements NextAuth.js with support for passwordless Google and GitHub OAuth providers, as well as traditional email and password authentication.
+- **Cart & Wishlist:** Guest cart and wishlist persisted via cookie-based session; sign-in page available for future auth integration.
 - **Database:** PostgreSQL hosted on a Neon serverless platform, with type-safe interactions and relations handled via Drizzle ORM.
 
 ## 🛠️ Tech Stack
@@ -34,7 +34,7 @@ https://nextjs-ecommerce-lac-sigma.vercel.app/
 | **Language** | TypeScript |
 | **Styling** | Tailwind CSS |
 | **State Management** | [Redux Toolkit](https://redux-toolkit.js.org/) |
-| **Authentication** | NextAuth.js |
+| **Cart / Wishlist** | Cookie-based guest session |
 | **Database** | PostgreSQL |
 | **ORM** | Drizzle |
 | **Deployment** | Vercel |
@@ -98,9 +98,6 @@ nextjs-ecommerce/
    │  ├─ context/
    │  │  ├─ CartSidebarModalContext.tsx
    │  │  └─ PreviewSliderContext.tsx
-   │  ├─ handler/
-   │  │  ├─ layout.tsx
-   │  │  └─ [...stack]/page.tsx
    │  └─ (site)/
    │     ├─ layout.tsx
    │     ├─ page.tsx
@@ -261,8 +258,6 @@ nextjs-ecommerce/
    │  ├─ db.js
    │  ├─ schema.js
    │  └─ seed.ts
-   ├─ stack-client.ts
-   └─ stack-server.ts
 ```
 
 ## ⚙️ Installation & Setup
@@ -277,22 +272,14 @@ Follow these steps to set up the project locally:
 
 2.  **Install dependencies**
     ```bash
-    npm install # you may need to use --legacy-peer-deps flag beacuse of stackframe (it's safe since the conflict with lucide icons svg library)
+    npm install
     ```
 
 3.  **Set up environment variables**
-    Create a `.env.local` file in the root directory and add the necessary variables. Here is an example based on your tech stack:
+    Create a `.env.local` file in the root directory and add the necessary variables:
     ```env
     # Database (Neon PostgreSQL)
     DATABASE_URL="your_neon_database_connection_string"
-
-    # Authentication (NextAuth.js)
-    NEXT_PUBLIC_STACK_PROJECT_ID="your_neonauth_id"
-    NEXT_PUBLIC_STACK_PUBLISHABLE_CLIENT_KEY="your_nextauth_client_key"
-    STACK_SECRET_SERVER_KEY="stack_secret_server_key"
-    
-    # Database owner connection string
-    DATABASE_URL="your_postgresql_neon_connection_url"
     ```
 
 4.  **Set up the database**

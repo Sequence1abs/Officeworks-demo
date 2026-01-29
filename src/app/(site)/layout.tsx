@@ -12,8 +12,6 @@ import { PreviewSliderProvider } from "../context/PreviewSliderContext";
 import PreviewSliderModal from "@/components/Common/PreviewSlider";
 
 import ScrollToTop from "@/components/Common/ScrollToTop";
-import { StackProvider, StackTheme } from "@stackframe/stack";
-import { stackServerApp } from "@/stack-server";
 import { Toaster } from "react-hot-toast";
 
 export default function Layout({
@@ -22,25 +20,21 @@ export default function Layout({
   children: React.ReactNode;
 }) {
   return (
-    <StackProvider app={stackServerApp}>
-      <ReduxProvider>
-        <CartModalProvider>
-          <ModalProvider>
-            <PreviewSliderProvider>
-              <Header />
-              <StackTheme>
-                {children}
-                <Toaster/>
-              </StackTheme>
-              <QuickViewModal />
-              <CartSidebarModal />
-              <PreviewSliderModal />
-              <ScrollToTop />
-              <Footer />
-            </PreviewSliderProvider>
-          </ModalProvider>
-        </CartModalProvider>
-      </ReduxProvider>
-    </StackProvider>
+    <ReduxProvider>
+      <CartModalProvider>
+        <ModalProvider>
+          <PreviewSliderProvider>
+            <Header />
+            {children}
+            <Toaster/>
+            <QuickViewModal />
+            <CartSidebarModal />
+            <PreviewSliderModal />
+            <ScrollToTop />
+            <Footer />
+          </PreviewSliderProvider>
+        </ModalProvider>
+      </CartModalProvider>
+    </ReduxProvider>
   );
 }

@@ -14,7 +14,6 @@ import {
   jsonb,
 } from "drizzle-orm/pg-core";
 import { relations, sql } from "drizzle-orm";
-import { usersSync } from 'drizzle-orm/neon';
 
 // Enums
 export const imageKindEnum = pgEnum("image_kind", ["thumbnail", "preview"]);
@@ -26,7 +25,7 @@ export const addresses = pgTable(
 "addresses",
   {
     id: serial("id").primaryKey(),
-    ownerId: text("owner_id").notNull().references(() => usersSync.id),
+    ownerId: text("owner_id").notNull(),
     fullName: varchar("full_name", { length: 255 }),
     line1: varchar("line1", { length: 255 }).notNull(),
     line2: varchar("line2", { length: 255 }),
@@ -106,7 +105,7 @@ export const reviews = pgTable(
     productId: integer("product_id")
       .notNull()
       .references(() => products.id, { onDelete: "cascade" }),
-    ownerId: text("owner_id").notNull().references(() => usersSync.id),
+    ownerId: text("owner_id").notNull(),
     rating: integer("rating").notNull(), // validate 1..5 in app or with a CHECK if you prefer
     comment: text("comment"),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),// validate 1..5 in app or with a CHECK if you prefer
@@ -122,7 +121,7 @@ export const carts = pgTable(
   "carts",
   {
     id: serial("id").primaryKey(),
-    ownerId: text("owner_id").notNull().references(() => usersSync.id),
+    ownerId: text("owner_id").notNull(),
     status: cartStatusEnum("status").notNull().default("active"),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
@@ -155,7 +154,7 @@ export const wishlists = pgTable(
   "wishlists",
   {
     id: serial("id").primaryKey(),
-    ownerId: text("owner_id").notNull().references(() => usersSync.id),
+    ownerId: text("owner_id").notNull(),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   },
   (t) => [
@@ -188,7 +187,7 @@ export const orders = pgTable(
   "orders",
   {
     id: serial("id").primaryKey(),
-    ownerId: text("owner_id").notNull().references(() => usersSync.id),
+    ownerId: text("owner_id").notNull(),
     status: orderStatusEnum("status").notNull().default("pending"),
     subtotalAmount: numeric("subtotal_amount", { precision: 10, scale: 2 }).notNull(),
     discountAmount: numeric("discount_amount", { precision: 10, scale: 2 }).notNull().default("0"),

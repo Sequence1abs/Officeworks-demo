@@ -8,12 +8,10 @@ import { fetchCartItems, clearCartAsync } from "@/redux/features/cart-slice";
 import SingleItem from "./SingleItem";
 import Breadcrumb from "../Common/Breadcrumb";
 import Link from "next/link";
-import { useUser } from "@stackframe/stack";
 import toast from "react-hot-toast";
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const user = useUser();
   
   const cartItems = useAppSelector((state) => state.cartReducer.items);
   const cartStatus = useAppSelector((state) => state.cartReducer.status);
@@ -24,12 +22,12 @@ const Cart = () => {
   const hasError = cartStatus === 'failed';
   const isClearingCart = clearStatus === 'pending';
   
-  // Fetch cart items when user is available
+  // Fetch cart items when cart is not loaded
   useEffect(() => {
-    if (user && cartStatus === 'idle') {
+    if (cartStatus === 'idle') {
       dispatch(fetchCartItems() as any);
     }
-  }, [user, dispatch, cartStatus]);
+  }, [dispatch, cartStatus]);
   
   const handleClearCart = async () => {
     try {

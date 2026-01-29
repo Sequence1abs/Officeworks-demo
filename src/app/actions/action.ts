@@ -1,4 +1,5 @@
 "use server"
+import { cookies } from "next/headers";
 import { db } from "@/database/db";
 import { and, asc, between, count, desc, eq, inArray, sql } from "drizzle-orm";
 import {
@@ -10,7 +11,6 @@ import {
 	wishlists,
 	wishlistItems,
 } from "@/database/schema";
-import { stackServerApp } from "@/stack-server";
 import type { ListedProduct } from "@/types/product";
 import { ListProductsParams } from "@/types/product";
 import { CategoryWithCount } from "@/types/category";
@@ -444,60 +444,49 @@ async function getUserCart(ownerId: string) {
 	}
 }
 
-// User-specific Cart Actions (with Stack Auth)
-export async function addToCartForUser(productId: number, quantity: number = 1) {
-	const user = await stackServerApp.getUser();
-	if (!user) throw new Error('Not authenticated');
+const GUEST_COOKIE_NAME = "guest_id";
 
-	console.log("addToCartForUser called for user");
-	return await addToCart(user.id, productId, quantity);
+async function getGuestId(): Promise<string> {
+	const cookieStore = await cookies();
+	let guestId = cookieStore.get(GUEST_COOKIE_NAME)?.value;
+	if (!guestId) {
+		guestId = crypto.randomUUID();
+		cookieStore.set(GUEST_COOKIE_NAME, guestId, { path: "/", maxAge: 60 * 60 * 24 * 365 });
+	}
+	return guestId;
+}
+
+export async function addToCartForUser(productId: number, quantity: number = 1) {
+	const ownerId = await getGuestId();
+	return await addToCart(ownerId, productId, quantity);
 }
 
 export async function updateCartItemQuantityForUser(productId: number, quantity: number) {
-	const user = await stackServerApp.getUser();
-	if (!user) throw new Error('Not authenticated');
-
-	console.log("updateCartItemQuantityForUser called for user");
-	return await updateCartItemQuantity(user.id, productId, quantity);
+	const ownerId = await getGuestId();
+	return await updateCartItemQuantity(ownerId, productId, quantity);
 }
 
 export async function removeFromCartForUser(productId: number) {
-	const user = await stackServerApp.getUser();
-	if (!user) throw new Error('Not authenticated');
-
-	console.log("removeFromCartForUser called for user");
-	return await removeFromCart(user.id, productId);
+	const ownerId = await getGuestId();
+	return await removeFromCart(ownerId, productId);
 }
 
 export async function getUserCartForUser() {
-	const user = await stackServerApp.getUser();
-	if (!user) return [];
-
-	console.log("getUserCartForUser called for user");
-	return await getUserCart(user.id);
+	const ownerId = await getGuestId();
+	return await getUserCart(ownerId);
 }
 
-// User-specific Wishlist Actions (with Stack Auth)
 export async function addToWishlistForUser(productId: number) {
-	const user = await stackServerApp.getUser();
-	if (!user) throw new Error('Not authenticated');
-
-	console.log("addToWishlistForUser called for user");
-	return await addToWishlist(user.id, productId);
+	const ownerId = await getGuestId();
+	return await addToWishlist(ownerId, productId);
 }
 
 export async function removeFromWishlistForUser(productId: number) {
-	const user = await stackServerApp.getUser();
-	if (!user) throw new Error('Not authenticated');
-
-	console.log("removeFromWishlistForUser called for user");
-	return await removeFromWishlist(user.id, productId);
+	const ownerId = await getGuestId();
+	return await removeFromWishlist(ownerId, productId);
 }
 
 export async function getUserWishlistForUser() {
-	const user = await stackServerApp.getUser();
-	if (!user) return [];
-
-	console.log("getUserWishlistForUser called for user");
-	return await getUserWishlist(user.id);
+	const ownerId = await getGuestId();
+	return await getUserWishlist(ownerId);
 }

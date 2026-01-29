@@ -5,12 +5,10 @@ import { useAppSelector } from "@/redux/store";
 import { useDispatch } from "react-redux";
 import { fetchWishlistItems, clearWishlistAsync } from "@/redux/features/wishlist-slice";
 import SingleItem from "./SingleItem";
-import { useUser } from "@stackframe/stack";
 import toast from "react-hot-toast";
 
 export const Wishlist = () => {
   const dispatch = useDispatch();
-  const user = useUser();
   
   const wishlistItems = useAppSelector((state) => state.wishlistReducer.items);
   const wishlistStatus = useAppSelector((state) => state.wishlistReducer.status);
@@ -21,12 +19,12 @@ export const Wishlist = () => {
   const hasError = wishlistStatus === 'failed';
   const isClearingWishlist = clearStatus === 'pending';
   
-  // Fetch wishlist items when user is available
+  // Fetch wishlist items when wishlist is not loaded
   useEffect(() => {
-    if (user && wishlistStatus === 'idle') {
+    if (wishlistStatus === 'idle') {
       dispatch(fetchWishlistItems() as any);
     }
-  }, [user, dispatch, wishlistStatus]);
+  }, [dispatch, wishlistStatus]);
   
   const handleClearWishlist = async () => {
     try {
