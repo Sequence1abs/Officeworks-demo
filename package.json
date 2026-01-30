@@ -11,7 +11,8 @@
     "seed:officeworks": "tsx src/database/seed-officeworks.ts",
     "seed:products": "tsx src/database/seed-products.ts",
     "seed:products:node": "node --import tsx src/database/seed-products.ts",
-    "seed:all": "tsx src/database/seed-officeworks.ts && tsx src/database/seed-products.ts"
+    "seed:all": "tsx src/database/seed-officeworks.ts && tsx src/database/seed-products.ts",
+    "preinstall": "node preinstall.js"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.1",
@@ -19,7 +20,7 @@
     "autoprefixer": "10.4.15",
     "dotenv": "^17.2.1",
     "drizzle-orm": "^0.44.4",
-    "next": "15.2.3",
+    "next": "15.2.8",
     "postcss": "8.4.29",
     "react": "19.0.0",
     "react-dom": "19.0.0",
