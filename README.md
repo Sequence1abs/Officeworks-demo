@@ -276,9 +276,12 @@ Follow these steps to set up the project locally:
     ```
 
 3.  **Set up environment variables**
-    Create a `.env.local` file in the root directory and add the necessary variables:
+    Copy `.env.example` to `.env` and add your values (do not commit `.env`):
+    ```bash
+    cp .env.example .env
+    ```
+    Then edit `.env` and set:
     ```env
-    # Database (Neon PostgreSQL)
     DATABASE_URL="your_neon_database_connection_string"
     ```
 
@@ -293,6 +296,17 @@ Follow these steps to set up the project locally:
     npm run dev
     ```
     Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+
+## 📤 Push to a new repo
+
+1. Create a new repository on GitHub (no README, no .gitignore).
+2. Add it as remote and push (replace `YOUR_USER/YOUR_REPO` with your repo):
+   ```bash
+   git remote remove origin
+   git remote add origin https://github.com/YOUR_USER/YOUR_REPO.git
+   git push -u origin main
+   ```
+3. On the new machine or for collaborators: copy `.env.example` to `.env` and set `DATABASE_URL`.
 
 ## 🛠️ Available Scripts
 

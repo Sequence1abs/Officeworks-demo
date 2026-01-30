@@ -19,6 +19,11 @@
 .DS_Store
 *.pem
 
+# env (do not commit secrets)
+.env
+.env.local
+.env.*.local
+
 # debug
 npm-debug.log*
 yarn-debug.log*
