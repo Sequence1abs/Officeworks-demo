@@ -36,10 +36,10 @@ const CounDown = () => {
             </span>
 
             <h2 className="font-bold text-dark text-xl lg:text-heading-4 xl:text-heading-3 mb-3">
-              Enhance Your Music Experience
+              Upgrade Your Office Printing
             </h2>
 
-            <p>The Havit H206d is a wired PC headphone.</p>
+            <p>Canon Single Function Laser Printer (LBP6030)</p>
 
             {/* <!-- Countdown timer --> */}
             <div
@@ -54,7 +54,7 @@ const CounDown = () => {
                   x-text="days"
                 >
                   {" "}
-                  {days < 10 ? "0" + days : days}{" "}
+                  {days < 10 ? + days : days}{" "}
                 </span>
                 <span className="block text-custom-sm text-dark text-center">
                   Days
@@ -68,7 +68,7 @@ const CounDown = () => {
                   x-text="hours"
                 >
                   {" "}
-                  {hours < 10 ? "0" + hours : hours}{" "}
+                  {hours < 10 ? + hours : hours}{" "}
                 </span>
                 <span className="block text-custom-sm text-dark text-center">
                   Hours
@@ -81,7 +81,7 @@ const CounDown = () => {
                   className="min-w-[64px] h-14.5 font-semibold text-xl lg:text-3xl text-dark rounded-lg flex items-center justify-center bg-white shadow-2 px-4 mb-2"
                   x-text="minutes"
                 >
-                  {minutes < 10 ? "0" + minutes : minutes}{" "}
+                  {minutes < 10 ? + minutes : minutes}{" "}
                 </span>
                 <span className="block text-custom-sm text-dark text-center">
                   Minutes
@@ -94,7 +94,7 @@ const CounDown = () => {
                   className="min-w-[64px] h-14.5 font-semibold text-xl lg:text-3xl text-dark rounded-lg flex items-center justify-center bg-white shadow-2 px-4 mb-2"
                   x-text="seconds"
                 >
-                  {seconds < 10 ? "0" + seconds : seconds}{" "}
+                  {seconds < 10 ? + seconds : seconds}{" "}
                 </span>
                 <span className="block text-custom-sm text-dark text-center">
                   Seconds
@@ -120,8 +120,8 @@ const CounDown = () => {
             height={482}
           />
           <Image
-            src="/images/countdown/countdown-01.png"
-            alt="product"
+            src="/images/countdown/countdown-new-02.png"
+            alt="Canon Printer"
             className="hidden lg:block absolute right-4 xl:right-33 bottom-4 xl:bottom-10 -z-1"
             width={411}
             height={376}

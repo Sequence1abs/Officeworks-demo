@@ -1,4 +1,6 @@
-import { listCategoriesWithCounts } from "@/app/actions/action";
+"use client";
+
+import { listCategoriesWithCounts } from "@/app/actions/actions-for-client";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from '../store';
 import { CategoryWithCount } from "@/types/category";
@@ -23,7 +25,10 @@ export const fetchCategoriesWithCounts = createAsyncThunk(
       const response = await listCategoriesWithCounts();
       return response;
     } catch (error) {
-      return rejectWithValue('Failed to fetch categories');
+      const message = error instanceof Error ? error.message : String(error);
+      const details = error instanceof Error ? error.stack : String(error);
+      const fullError = details && details !== message ? `${message}\n\nDetails:\n${details}` : message;
+      return rejectWithValue(fullError || 'Failed to fetch categories');
     }
   }
 );
@@ -51,7 +56,7 @@ const categorieSlice = createSlice({
       })
       .addCase(fetchCategoriesWithCounts.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload as string || 'Failed to fetch categories';
+        state.error = (action.payload as string) ?? action.error?.message ?? 'Failed to fetch categories';
       });
   },
 });

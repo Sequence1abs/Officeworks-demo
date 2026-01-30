@@ -125,7 +125,7 @@ const ProductDetails = ({ productSlug }: { productSlug: string }) => {
                   </button>
 
                   <Image
-                    src={product.imgs?.previews[previewImg]}
+                    src={product.imgs?.previews?.[previewImg] || ""}
                     alt="products-details"
                     width={400}
                     height={400}
@@ -139,9 +139,8 @@ const ProductDetails = ({ productSlug }: { productSlug: string }) => {
                   <button
                     onClick={() => setPreviewImg(key)}
                     key={key}
-                    className={`flex items-center justify-center w-15 sm:w-25 h-15 sm:h-25 overflow-hidden rounded-lg bg-gray-2 shadow-1 ease-out duration-200 border-2 hover:border-blue ${
-                      key === previewImg ? "border-blue" : "border-transparent"
-                    }`}
+                    className={`flex items-center justify-center w-15 sm:w-25 h-15 sm:h-25 overflow-hidden rounded-lg bg-gray-2 shadow-1 ease-out duration-200 border-2 hover:border-blue ${key === previewImg ? "border-blue" : "border-transparent"
+                      }`}
                   >
                     <Image width={50} height={50} src={item} alt="thumbnail" />
                   </button>
@@ -309,9 +308,9 @@ const ProductDetails = ({ productSlug }: { productSlug: string }) => {
 
               <h3 className="font-medium text-custom-1 mb-4.5">
                 <span className="text-sm sm:text-base text-dark">
-                  Price: ${product.discountedPrice}
+                  Price: LKR {product.discountedPrice}
                 </span>
-                <span className="line-through"> ${product.price} </span>
+                <span className="line-through"> LKR {product.price} </span>
               </h3>
 
               <ul className="flex flex-col gap-2">
@@ -475,11 +474,10 @@ const ProductDetails = ({ productSlug }: { productSlug: string }) => {
               <button
                 key={key}
                 onClick={() => setActiveTab(item.id)}
-                className={`font-medium lg:text-lg ease-out duration-200 hover:text-blue relative before:h-0.5 before:bg-blue before:absolute before:left-0 before:bottom-0 before:ease-out before:duration-200 hover:before:w-full ${
-                  activeTab === item.id
-                    ? "text-blue before:w-full"
-                    : "text-dark before:w-0"
-                }`}
+                className={`font-medium lg:text-lg ease-out duration-200 hover:text-blue relative before:h-0.5 before:bg-blue before:absolute before:left-0 before:bottom-0 before:ease-out before:duration-200 hover:before:w-full ${activeTab === item.id
+                  ? "text-blue before:w-full"
+                  : "text-dark before:w-0"
+                  }`}
               >
                 {item.title}
               </button>
@@ -491,9 +489,8 @@ const ProductDetails = ({ productSlug }: { productSlug: string }) => {
           {/* <!-- tab content one start --> */}
           <div>
             <div
-              className={`flex-col sm:flex-row gap-7.5 xl:gap-12.5 mt-12.5 ${
-                activeTab === "tabOne" ? "flex" : "hidden"
-              }`}
+              className={`flex-col sm:flex-row gap-7.5 xl:gap-12.5 mt-12.5 ${activeTab === "tabOne" ? "flex" : "hidden"
+                }`}
             >
               <div className="max-w-[670px] w-full">
                 <h2 className="font-medium text-2xl text-dark mb-7">
@@ -528,9 +525,8 @@ const ProductDetails = ({ productSlug }: { productSlug: string }) => {
           {/* <!-- tab content two start --> */}
           <div>
             <div
-              className={`rounded-xl bg-white shadow-1 p-4 sm:p-6 mt-10 ${
-                activeTab === "tabTwo" ? "block" : "hidden"
-              }`}
+              className={`rounded-xl bg-white shadow-1 p-4 sm:p-6 mt-10 ${activeTab === "tabTwo" ? "block" : "hidden"
+                }`}
             >
               {/* <!-- info item --> */}
               <span className="font-bold text-lg text-red-dark">
@@ -663,9 +659,8 @@ const ProductDetails = ({ productSlug }: { productSlug: string }) => {
           {/* <!-- tab content three start --> */}
           <div>
             <div
-              className={`flex-col sm:flex-row gap-7.5 xl:gap-12.5 mt-12.5 ${
-                activeTab === "tabThree" ? "flex" : "hidden"
-              }`}
+              className={`flex-col sm:flex-row gap-7.5 xl:gap-12.5 mt-12.5 ${activeTab === "tabThree" ? "flex" : "hidden"
+                }`}
             >
               <div className="max-w-[570px] w-full">
                 <span className="font-bold text-lg text-red-dark">

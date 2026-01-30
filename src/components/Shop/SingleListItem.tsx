@@ -18,7 +18,7 @@ const SingleListItem = ({ item }: { item: Product }) => {
   const addStatus = useAppSelector((state) => state.cartReducer.addStatus);
   const isInWishlist = useAppSelector((state) => selectIsInWishlist(state, item.id));
   const isAddingToCart = addStatus === 'pending';
-  
+
   // Wishlist selectors
   const wishlistAddStatus = useAppSelector((state) => state.wishlistReducer.addStatus);
   const wishlistRemoveStatus = useAppSelector((state) => state.wishlistReducer.removeStatus);
@@ -63,7 +63,7 @@ const SingleListItem = ({ item }: { item: Product }) => {
     <div className="group rounded-lg bg-white shadow-1">
       <div className="flex">
         <div className="shadow-list relative overflow-hidden flex items-center justify-center max-w-[270px] w-full sm:min-h-[270px] p-4">
-          <Image src={item.imgs.previews[0]} alt="" width={250} height={250} />
+          <Image src={item.imgs?.previews?.[0] || ""} alt="" width={250} height={250} />
 
           <div className="absolute left-0 bottom-0 translate-y-full w-full flex items-center justify-center gap-2.5 pb-5 ease-linear duration-200 group-hover:translate-y-0">
             <button
@@ -100,11 +100,10 @@ const SingleListItem = ({ item }: { item: Product }) => {
             <button
               onClick={handleAddToCart}
               disabled={isAddingToCart}
-              className={`inline-flex items-center gap-2 font-medium text-custom-sm py-[7px] px-5 rounded-[5px] ease-out duration-200 ${
-                isAddingToCart 
-                  ? 'bg-blue-light-2 text-white cursor-not-allowed' 
-                  : 'bg-blue text-white hover:bg-blue-dark'
-              }`}
+              className={`inline-flex items-center gap-2 font-medium text-custom-sm py-[7px] px-5 rounded-[5px] ease-out duration-200 ${isAddingToCart
+                ? 'bg-blue-light-2 text-white cursor-not-allowed'
+                : 'bg-blue text-white hover:bg-blue-dark'
+                }`}
             >
               {isAddingToCart ? (
                 <>
@@ -120,13 +119,12 @@ const SingleListItem = ({ item }: { item: Product }) => {
               onClick={() => handleItemToWishList()}
               disabled={isWishlistLoading}
               aria-label="button for favorite select"
-              className={`flex items-center justify-center w-9 h-9 rounded-[5px] shadow-1 ease-out duration-200 ${
-                isWishlistLoading
+              className={`flex items-center justify-center w-9 h-9 rounded-[5px] shadow-1 ease-out duration-200 ${isWishlistLoading
                 ? 'text-gray-400 bg-gray-200 cursor-not-allowed'
-                : isInWishlist 
-                ? 'text-red-500 bg-red hover:text-red-600' 
-                : 'text-dark bg-white hover:text-blue'
-            }`}
+                : isInWishlist
+                  ? 'text-red-500 bg-red hover:text-red-600'
+                  : 'text-dark bg-white hover:text-blue'
+                }`}
             >
               {isWishlistLoading ? (
                 <div className="w-4 h-4 border-2 border-blue border-t-transparent rounded-full animate-spin"></div>
@@ -158,8 +156,8 @@ const SingleListItem = ({ item }: { item: Product }) => {
             </h3>
 
             <span className="flex items-center gap-2 font-medium text-lg">
-              <span className="text-dark">${item.discountedPrice}</span>
-              <span className="text-dark-4 line-through">${item.price}</span>
+              <span className="text-dark">LKR {item.discountedPrice}</span>
+              <span className="text-dark-4 line-through">LKR {item.price}</span>
             </span>
           </div>
 

@@ -72,19 +72,23 @@ const ShopWithSidebar = () => {
   };
 
   const sortOptions = [
+    { label: "Name A–Z", value: "title_asc" },
+    { label: "Name Z–A", value: "title_desc" },
     { label: "Latest Products", value: "latest" },
+    { label: "Oldest Products", value: "oldest" },
     { label: "Price: Low to High", value: "price_asc" },
     { label: "Price: High to Low", value: "price_desc" },
-    { label: "Oldest Products", value: "oldest" },
   ];
 
   // Handle sort change - ONLY updates URL
   const handleSortChange = (sortValue: string) => {
     const newSort = sortValue as
+      | "title_asc"
+      | "title_desc"
       | "latest"
+      | "oldest"
       | "price_asc"
-      | "price_desc"
-      | "oldest";
+      | "price_desc";
     
     const categorySlugs = categoryIdsToSlugs(filters.categoryIds || [], categories);
     const priceRange = filters.minPrice && filters.maxPrice 
@@ -145,7 +149,7 @@ const ShopWithSidebar = () => {
   }, [dispatch]);
   
   useEffect(() => {
-  if (!searchParams || categories.length === 0) return;
+  if (!searchParams) return;
   
   const urlFilters = parseUrlFilters(searchParams);
   
@@ -161,10 +165,10 @@ const ShopWithSidebar = () => {
     priceRange = parsePriceRange(urlFilters.price);
   }
 
-  const validSortOptions = ['latest', 'price_asc', 'price_desc', 'oldest'] as const;
-  const sortValue = urlFilters.sort && validSortOptions.includes(urlFilters.sort as any) 
-    ? urlFilters.sort as "latest" | "price_asc" | "price_desc" | "oldest"
-    : 'latest';
+  const validSortOptions = ['title_asc', 'title_desc', 'latest', 'oldest', 'price_asc', 'price_desc'] as const;
+  const sortValue = urlFilters.sort && validSortOptions.includes(urlFilters.sort as any)
+    ? urlFilters.sort as typeof validSortOptions[number]
+    : 'title_asc';
 
   const newFilters = {
     categoryIds,
@@ -287,11 +291,14 @@ const ShopWithSidebar = () => {
                     )}
 
                     {categoriesError && (
-                      <div className="text-red-600 text-sm">
-                        Error loading categories: {categoriesError}
+                      <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-left">
+                        <p className="font-semibold text-red-700 text-sm mb-2">Error loading categories</p>
+                        <pre className="whitespace-pre-wrap break-words text-xs text-red-800 font-mono bg-white/80 p-2 rounded border border-red-100 max-h-40 overflow-auto">
+                          {categoriesError}
+                        </pre>
                         <button
                           onClick={() => dispatch(fetchCategoriesWithCounts())}
-                          className="ml-2 text-blue-600 underline hover:no-underline"
+                          className="mt-2 text-sm text-blue-600 underline hover:no-underline"
                         >
                           Retry
                         </button>

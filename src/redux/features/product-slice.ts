@@ -1,6 +1,8 @@
+"use client";
+
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Product } from "@/types/product";
-import { listProducts, getProduct } from "@/app/actions/action";
+import { listProducts, getProduct } from "@/app/actions/actions-for-client";
 import type { ListProductsParams } from "@/types/product";
 import { normalizeProducts, createEmptyProduct, normalizeProduct } from "@/utils/productUtils";
 import { ProductSortOption } from "@/types/common";
@@ -42,7 +44,7 @@ const initialState: InitialState = {
   
   filters: {
     categoryIds: [],
-    sort: "latest",
+    sort: "title_asc",
     limit: 9,
     offset: 0,
   },
@@ -70,7 +72,10 @@ export const fetchProducts = createAsyncThunk(
         hasMore: response.length === (params.limit || 9), // Check if we got a full page
       };
     } catch (error) {
-      return rejectWithValue(error instanceof Error ? error.message : 'Failed to fetch products');
+      const message = error instanceof Error ? error.message : String(error);
+      const details = error instanceof Error ? error.stack : String(error);
+      const fullError = details && details !== message ? `${message}\n\n${details}` : message;
+      return rejectWithValue(fullError || 'Failed to fetch products');
     }
   }
 );
@@ -118,7 +123,7 @@ export const productSlice = createSlice({
     resetFilters(state) {
       state.filters = {
         categoryIds: [],
-        sort: "latest",
+        sort: "title_asc",
         minPrice: undefined,
         maxPrice: undefined,
         limit: 9,
@@ -168,7 +173,7 @@ export const productSlice = createSlice({
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload as string || 'Failed to fetch products';
+        state.error = (action.payload as string) ?? action.error?.message ?? 'Failed to fetch products';
       })
       
       // fetchProductBySlug cases

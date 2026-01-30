@@ -1,3 +1,5 @@
+"use client";
+
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { 
@@ -5,7 +7,7 @@ import {
   addToCartForUser,
   updateCartItemQuantityForUser,
   removeFromCartForUser 
-} from "@/app/actions/action";
+} from "@/app/actions/actions-for-client";
 import { normalizeCartItems } from "@/utils/cartUtils";
 import type { CartItem } from "@/types/cart";
 

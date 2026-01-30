@@ -24,14 +24,22 @@ export default function Layout({
       <CartModalProvider>
         <ModalProvider>
           <PreviewSliderProvider>
+            <a
+              href="#main-content"
+              className="absolute -left-[9999px] top-4 z-[100] px-4 py-2 bg-blue text-white rounded-md font-medium focus:left-4 focus:outline-none focus:ring-2 focus:ring-blue focus:ring-offset-2"
+            >
+              Skip to content
+            </a>
             <Header />
-            {children}
-            <Toaster/>
+            <div id="main-content" className="min-h-screen flex flex-col" tabIndex={-1}>
+              {children}
+            </div>
+            <Footer />
+            <Toaster />
             <QuickViewModal />
             <CartSidebarModal />
             <PreviewSliderModal />
             <ScrollToTop />
-            <Footer />
           </PreviewSliderProvider>
         </ModalProvider>
       </CartModalProvider>

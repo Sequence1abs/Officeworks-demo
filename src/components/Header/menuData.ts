@@ -3,7 +3,7 @@ import { Menu } from "@/types/ui";
 export const menuData: Menu[] = [
   {
     id: 1,
-    title: "Popular",
+    title: "Home",
     newTab: false,
     path: "/",
   },
@@ -15,13 +15,25 @@ export const menuData: Menu[] = [
   },
   {
     id: 3,
-    title: "Contact",
+    title: "Blog",
+    newTab: false,
+    path: "/blogs/blog-grid",
+  },
+  {
+    id: 4,
+    title: "About us",
+    newTab: false,
+    path: "/about",
+  },
+  {
+    id: 5,
+    title: "Contact us",
     newTab: false,
     path: "/contact",
   },
   {
     id: 6,
-    title: "pages",
+    title: "Pages",
     newTab: false,
     path: "/",
     submenu: [
@@ -80,7 +92,7 @@ export const menuData: Menu[] = [
         path: "/contact",
       },
       {
-        id: 62,
+        id: 123,
         title: "Error",
         newTab: false,
         path: "/error",

@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'NextCommerce',
-  description: 'Next.js E-commerce application',
+  title: 'Officeworks - Office & School Stationery',
+  description: 'Sri Lanka\'s largest importer, manufacturer and direct supplier of quality office and school stationery. Lowest price just a beginning.',
 };
 
 export default function RootLayout({

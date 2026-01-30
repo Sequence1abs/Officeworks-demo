@@ -1,10 +1,12 @@
+"use client";
+
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { 
   getUserWishlistForUser,
   addToWishlistForUser,
   removeFromWishlistForUser,
-} from "@/app/actions/action";
+} from "@/app/actions/actions-for-client";
 import { normalizeWishlistItems } from "@/utils/wishlistUtils";
 import type { WishlistItem } from "@/types/wishlist";
 

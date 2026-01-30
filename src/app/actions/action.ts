@@ -56,11 +56,15 @@ export async function listProducts(params: ListProductsParams = {}): Promise<Lis
 		break;
 	  case "price_desc": orderByClause = [desc(products.discountedPrice)];
 		break;
+	  case "title_asc": orderByClause = [asc(products.title)];
+		break;
+	  case "title_desc": orderByClause = [desc(products.title)];
+		break;
 	  case "latest": orderByClause = [desc(products.id)];
 		break;
 	  case "oldest": orderByClause = [asc(products.id)];
 		break;
-	  default: orderByClause = [desc(products.id)];
+	  default: orderByClause = [asc(products.title)];
 		break;
 	}
 
@@ -129,8 +133,9 @@ export async function listProducts(params: ListProductsParams = {}): Promise<Lis
 	return productsWithImages as ListedProduct[];
 
   } catch (error) {
-	console.error("Error in listProducts:", error);
-	return [];
+	const message = error instanceof Error ? error.message : String(error);
+	const hint = !process.env.DATABASE_URL ? " (Set DATABASE_URL in .env)" : "";
+	throw new Error(`Failed to fetch products: ${message}${hint}`);
   }
 }
 
@@ -215,20 +220,28 @@ export async function getProduct(productSlug: string): Promise<ListedProduct | n
 }
 
 export async function listCategoriesWithCounts(): Promise<CategoryWithCount[]> {
-	const rows = await db
-		.select({
-			id: categories.id,
-			name: categories.name,
-			slug: categories.slug,
-			img: categories.img,
-			productCount: count(productCategories.productId).mapWith(Number),
-		})
-		.from(categories)
-		.leftJoin(productCategories, eq(categories.id, productCategories.categoryId))
-		.groupBy(categories.id, categories.name, categories.slug, categories.img);
+	try {
+		const rows = await db
+			.select({
+				id: categories.id,
+				name: categories.name,
+				slug: categories.slug,
+				img: categories.img,
+				productCount: count(productCategories.productId).mapWith(Number),
+			})
+			.from(categories)
+			.leftJoin(productCategories, eq(categories.id, productCategories.categoryId))
+			.groupBy(categories.id, categories.name, categories.slug, categories.img);
 
-	console.log("listCategoriesWithCounts called");	
-	return rows as CategoryWithCount[];
+		console.log("listCategoriesWithCounts called");
+		return rows as CategoryWithCount[];
+	} catch (err) {
+		const message = err instanceof Error ? err.message : String(err);
+		const hint = !process.env.DATABASE_URL
+			? " (DATABASE_URL is missing in .env)"
+			: "";
+		throw new Error(`Failed to fetch categories: ${message}${hint}`);
+	}
 }
 
 async function getUserCart(ownerId: string) {
